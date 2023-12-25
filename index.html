@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter React</title>
+
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+        integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+
+
+    <script type="text/babel">
+
+        function Addition() {
+            const m = 2;
+            const n = 4;
+            return (
+                <div>
+                    <h1>Sum: {m + n}</h1>
+                </div>
+            );
+        }
+
+        function ReactStates() {
+            // 1. Corrected the spelling and usage of React.useState
+            const [n1, setN1] = React.useState(1);
+            const [n2, setN2] = React.useState(2);
+
+            // 2. Removed unnecessary object structure from useState
+            const [state, setState] = React.useState({
+                num1: 1,
+                num2: 2,
+                response: "",
+                score: 0,
+                incorrect: false,
+            });
+
+            function updateResponse(event) {
+                setState({
+
+                    // num1: state.num1,
+                    // num2: state.num2,
+
+                    ...state,
+                    response: event.target.value
+                });
+            }
+
+            function inputKeyPress(event) {
+                if (event.key === 'Enter') {
+                    const answer = parseInt(state.response)
+                    if (state.num1 + state.num2 === answer) {
+                        setState({
+                            ...state,
+                            num1: Math.ceil(Math.random() * 10),
+                            num2: Math.ceil(Math.random() * 10),
+                            score: state.score + 1,
+                            response: '',
+                            incorrect: false,
+                        });
+                        
+
+                    } else {
+                        setState({
+                            ...state,
+                            score: state.score - 1,
+                            response: '',
+                            incorrect: true,
+                        });
+
+                    }
+
+                }
+            }
+
+
+            return (
+                <div className="container">
+                    <div className="jumbotron jumbotron-fluid bg-light p-lg-5 pt-lg-5">
+                        <div className="container">
+                            <h1 className="display-1 text-uppercase text-center mb-lg-3 fw-bold">Quiz Game App</h1>
+
+                            <div className="container">
+                                <h3 className={state.incorrect ? "incorrect" : ""}>Question: {state.num1} + {state.num2}</h3>
+                                <input
+                                autoFocus={true}
+                                    type="text"
+                                    class="form-control mt-lg-3 mb-2"
+                                    onChange={updateResponse}
+                                    onKeyPress={inputKeyPress}
+                                    value={state.response}
+                                    placeholder="Enter correct answer"
+                                />
+
+                                <h5 class="mt-lg-5">Score: {state.score}</h5>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            );
+        }
+
+        function App() {
+            return (
+                <div>
+                    <ReactStates />
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.querySelector("#app"));
+
+    </script>
+
+
+</head>
+
+<body>
+
+    <div id="app"></div>
+
+</body>
+
+</html>
